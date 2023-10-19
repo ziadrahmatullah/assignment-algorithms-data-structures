@@ -5,18 +5,18 @@ import (
 	"strings"
 )
 
-type node struct {
+type nodeS struct {
 	val   byte
 	count int
-	next  *node
+	next  *nodeS
 }
 
 type stack struct {
-	top *node
+	top *nodeS
 }
 
 func (S *stack) push(item byte) {
-	newNode := &node{val: item, count: 1, next: nil}
+	newNode := &nodeS{val: item, count: 1, next: nil}
 	if S.top == nil {
 		S.top = newNode
 	} else {
