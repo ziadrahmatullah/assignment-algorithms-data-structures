@@ -39,7 +39,20 @@ func RotateImage(pixels [][]int) [][]int {
 func RotateActualImage(pixels [][]Pixel) [][]Pixel {
 	// Write your code here
 	// --------------------
-	return nil
+	rows:= len(pixels)
+	cols := len(pixels[0])
+	result := make([][]Pixel, rows)
+	for i:=0; i< len(result); i++{
+		result[i] = make([]Pixel, cols)
+	}
+	k := cols-1;
+	for i:=0; i<rows; i++{
+		for j:= 0;j<cols; j++{
+			result[j][k] = pixels[i][j]
+		}
+		k--;
+	}
+	return result
 	// --------------------
 }
 
