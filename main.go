@@ -13,6 +13,6 @@ func main() {
 	// RunRotateActualImage()
 
 	// Task 3.a
-	string := RobotTranslatorV2("RRXXX")
+	string := RobotTranslatorV2("LLRRX XX")
 	fmt.Printf(string)
 }

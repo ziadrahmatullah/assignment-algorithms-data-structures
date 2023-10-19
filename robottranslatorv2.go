@@ -35,6 +35,24 @@ func (S *stack) pop() (byte, int) {
 	return 0, 0
 }
 
+func (S *stack)processingStringToStack(cmd string){
+	for _, char := range cmd {
+		if char == 'X' && S.top != nil{			
+			if S.top.count > 1 {
+				S.top.count--
+			} else {
+				S.pop()
+			}
+		} else {
+			if S.top != nil && S.top.val == byte(char) {
+				S.top.count++
+			} else {
+				S.push(byte(char))
+			}
+		}
+	}
+}
+
 func instructions(count int, move byte) string {
 	var mapTime = map[bool]string{
 		true:  "times",
@@ -52,7 +70,7 @@ func instructions(count int, move byte) string {
 		timeWord = true
 	}
 
-	return fmt.Sprintf("Move %s %d % s", mapMove[move], count, mapTime[timeWord])
+	return fmt.Sprintf("Move %s %d %s", mapMove[move], count, mapTime[timeWord])
 }
 
 func reverseArray(arr []string) []string {
@@ -66,35 +84,19 @@ func reverseArray(arr []string) []string {
 func RobotTranslatorV2(cmd string) string {
 	// Write your code here
 	// --------------------
-
 	S := stack{}
-	for _, char := range cmd {
-		if char == 'X' {
-			if S.top != nil {
-				if S.top.count > 1 {
-					S.top.count--
-				} else {
-					S.pop()
-				}
-			}
-		} else {
-			if S.top != nil && (S.top.val == byte(char)) {
-				S.top.count++
-			} else {
-				S.push(byte(char))
-			}
-		}
-	}
-	var arrString []string
+	S.processingStringToStack(cmd)
+
+	var arrMoves []string
 	for S.top != nil {
 		move, count := S.pop()
 		if move != 'R' && move != 'L' && move != 'A' {
 			return "Invalid command"
 		}
-		arrString = append(arrString, instructions(count, move))
+		arrMoves = append(arrMoves, instructions(count, move))
 	}
-	reverseArray(arrString)
+	reverseArray(arrMoves)
 
-	return strings.Join(arrString, "\n")
+	return strings.Join(arrMoves, "\n")
 	// --------------------
 }
