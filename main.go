@@ -1,4 +1,5 @@
 package main
+import "fmt"
 
 // If you want to test your code, you may test it here...
 func main() {
@@ -12,5 +13,6 @@ func main() {
 	// RunRotateActualImage()
 
 	// Task 3.a
-	// _ := RobotTranslatorV2("")
+	string := RobotTranslatorV2("RRXXX")
+	fmt.Printf(string)
 }
