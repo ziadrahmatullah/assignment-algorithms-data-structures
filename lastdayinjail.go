@@ -63,9 +63,7 @@ func (Q *queue) dequeue() (output Person) {
 }
 
 func (Q *queue) getPerson(input string) (output Person) {
-	if Q.head == nil {
-		return
-	} else {
+	if Q.head != nil {
 		curr := Q.head
 		if curr.val.Name == input {
 			return Q.dequeue()
@@ -79,6 +77,7 @@ func (Q *queue) getPerson(input string) (output Person) {
 		}
 		return
 	}
+	return
 }
 
 func min(x, y int) int {
@@ -146,9 +145,9 @@ func LastDayInJail(criminals []Person, chosenPerson string) (onTransport []Perso
 		}
 		i--
 	}
-	if len(onTransport) < 3 && personPlus.Name != ""{
+	if len(onTransport) < 3 && personPlus.Name != "" {
 		onTransport = append(onTransport, personPlus)
-	} else if personPlus.Name != ""{
+	} else if personPlus.Name != "" {
 		waiting = append(waiting, personPlus)
 	}
 	return

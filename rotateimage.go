@@ -19,6 +19,9 @@ func RotateImage(pixels [][]int) [][]int {
 	// --------------------
 	rows:= len(pixels)
 	cols := len(pixels[0])
+	if rows == 0{
+		return nil
+	}
 	result := make([][]int, rows)
 	for i:=0; i< len(result); i++{
 		result[i] = make([]int, cols)
@@ -41,6 +44,9 @@ func RotateActualImage(pixels [][]Pixel) [][]Pixel {
 	// --------------------
 	rows:= len(pixels)
 	cols := len(pixels[0])
+	if rows == 0{
+		return nil
+	}
 	result := make([][]Pixel, rows)
 	for i:=0; i< len(result); i++{
 		result[i] = make([]Pixel, cols)
