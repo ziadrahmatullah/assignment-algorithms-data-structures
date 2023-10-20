@@ -1,81 +1,66 @@
 package main
 
-// import "strings"
-
 type Person struct {
 	Name          string
 	CriminalScore int
 }
 
-type nodeQ struct {
-	val  Person
-	next *nodeQ
+type priorityQueue struct {
+	items []Person
 }
 
-type queue struct {
-	head *nodeQ
-	len  int
+func (pq *priorityQueue) push(person Person) {
+	pq.items = append(pq.items, person)
+	pq.upHeapify(len(pq.items) - 1)
 }
 
-func (Q *queue) enqueue(input Person) {
-	newNode := &nodeQ{val: input, next: nil}
-	if Q.head == nil {
-		Q.head = newNode
-		Q.len++
-	} else {
-		curr := Q.head
-		var temp *nodeQ
-		for isPerson1Higher(curr.val, newNode.val) {
-			if curr.next == nil {
-				curr.next = newNode
-				curr = newNode
-			} else {
-				temp = curr
-				curr = curr.next
-			}
-		}
-		if curr == Q.head {
-			newNode.next = Q.head
-			Q.head = newNode
-		} else if temp != nil && curr != newNode {
-			newNode.next = curr
-			temp.next = newNode
-		}
-		Q.len++
-	}
-}
-
-func (Q *queue) dequeue() (output Person) {
-	if Q.len == 1 {
-		output = Q.head.val
-		Q.head = nil
-		Q.len--
-		return
-	} else if Q.len > 1 {
-		curr := Q.head
-		Q.head = Q.head.next
-		curr.next = nil
-		output = curr.val
-		Q.len--
-		return
-	}
+func (pq *priorityQueue) pop() (output Person) {
+	if len(pq.items) != 0{
+        output = pq.items[0]
+        last := pq.items[len(pq.items)-1]
+        pq.items[0] = last
+        pq.items = pq.items[:len(pq.items)-1]
+        pq.downHeapify(0)
+        return
+    }
 	return
 }
 
-func (Q *queue) getPerson(input string) (output Person) {
-	if Q.head != nil {
-		curr := Q.head
-		if curr.val.Name == input {
-			return Q.dequeue()
+func (pq *priorityQueue) upHeapify(idx int) {
+	for idx > 0 {
+		parentIdx := (idx - 1) / 2
+		if isPerson1Higher(pq.items[idx], pq.items[parentIdx]) {
+			pq.items[idx], pq.items[parentIdx] = pq.items[parentIdx], pq.items[idx]
+			idx = parentIdx
 		} else {
-			for curr.next != nil {
-				if curr.val.Name == input {
-					return curr.val
-				}
-				curr = curr.next
-			}
+			break
 		}
-		return
+	}
+}
+
+func (pq *priorityQueue) downHeapify(idx int) {
+	leftChild := 2*idx + 1
+	rightChild := 2*idx + 2
+	smallest := idx
+
+	if leftChild < len(pq.items) && isPerson1Higher(pq.items[leftChild], pq.items[smallest]) {
+		smallest = leftChild
+	}
+	if rightChild < len(pq.items) && isPerson1Higher(pq.items[rightChild], pq.items[smallest]) {
+		smallest = rightChild
+	}
+
+	if smallest != idx {
+		pq.items[idx], pq.items[smallest] = pq.items[smallest], pq.items[idx]
+		pq.downHeapify(smallest)
+	}
+}
+
+func (pq *priorityQueue) getPersonByName(name string) (output Person) {
+	for i, person := range pq.items {
+		if person.Name == name {
+			return pq.items[i]
+		}
 	}
 	return
 }
@@ -127,29 +112,29 @@ func isPerson1Higher(person1, person2 Person) bool {
 	}
 }
 
-// Task 1.a
 func LastDayInJail(criminals []Person, chosenPerson string) (onTransport []Person, waiting []Person) {
-	// Write your code here
-	// --------------------
-	Q := queue{}
+	pq := priorityQueue{}
+
 	for _, person := range criminals {
-		Q.enqueue(person)
+		pq.push(person)
 	}
+
 	i := 5
-	personPlus := Q.getPerson(chosenPerson)
-	for Q.head != nil && i != 0 {
+	chosen := pq.getPersonByName(chosenPerson)
+
+	for i > 0 && len(pq.items) > 0 {
+		person := pq.pop()
 		if len(onTransport) < 3 {
-			onTransport = append(onTransport, Q.dequeue())
+			onTransport = append(onTransport, person)
 		} else {
-			waiting = append(waiting, Q.dequeue())
+			waiting = append(waiting, person)
 		}
 		i--
 	}
-	if len(onTransport) < 3 && personPlus.Name != "" {
-		onTransport = append(onTransport, personPlus)
-	} else if personPlus.Name != "" {
-		waiting = append(waiting, personPlus)
+	if len(onTransport) < 3 && chosen.Name != "" {
+		onTransport = append(onTransport, chosen)
+	} else if chosen.Name != "" {
+		waiting = append(waiting, chosen)
 	}
 	return
-	// --------------------
 }

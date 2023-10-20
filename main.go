@@ -7,10 +7,10 @@ import "time"
 func main() {
 	// Task 1.a
 	
-	// var criminalss = []Person{
-	// 	{Name:"Budi", CriminalScore:51},
-	// 	{Name:"budi", CriminalScore:51},
-	// 	{Name:"Catur", CriminalScore:51},
+	var criminalss = []Person{
+		// {Name:"Budi", CriminalScore:51},
+		// {Name:"budi", CriminalScore:51},
+		// {Name:"Catur", CriminalScore:51},
 		// {Name:"Laura Matthews", CriminalScore:52},
 		// {Name:"Debra Norris", CriminalScore:94},
 		// {Name:"Amanda Griffin", CriminalScore:69},
@@ -29,10 +29,11 @@ func main() {
 		// {Name:"Mallory Snow", CriminalScore:31},
 		// {Name:"Ellen Gallegos", CriminalScore:70},
 		// {Name:"Anthony Johnson", CriminalScore:15},
-// }
+}
 	start:= time.Now()
-	vehicle, waiting := LastDayInJail(crim, "Ellen Gallegos")
-	fmt.Print(vehicle, waiting)
+	vehicle, waiting := LastDayInJail(criminalss, "")
+	fmt.Print(vehicle)
+	fmt.Print(waiting)
 	elapsed:= time.Since(start)
 	fmt.Print(elapsed)
 
