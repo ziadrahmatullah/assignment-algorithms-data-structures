@@ -68,14 +68,14 @@ func (Q *queue) getPerson(input string) (output Person){
 		if curr.val.Name == input{
 			return Q.dequeue()	
 		}else{
-			for curr.next.val.Name != input && curr.next != nil{
+			for curr.next != nil{
+				if curr.val.Name == input{
+					return curr.val
+				}
 				curr = curr.next
 			}
-			output = curr.next.val
-			curr.next = curr.next.next
-			Q.len--
-			return
 		}
+		return
 	}	
 }
 
@@ -142,8 +142,8 @@ func LastDayInJail(criminals []Person, chosenPerson string) (onTransport []Perso
 		released.enqueue(Q.dequeue())
 		i--
 	}
-	if chosenPerson != ""{
-		released.enqueue(Q.getPerson(chosenPerson))
+	if person := Q.getPerson(chosenPerson); person.Name != ""{	
+		released.enqueue(person)
 	}
 	for released.head != nil{
 		if len(onTransport)< 3{
