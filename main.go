@@ -7,8 +7,8 @@ func main() {
 	// Task 1.a
 	
 	var criminalss = []Person{
-		{Name:"Melissa Garcia", CriminalScore:51},
-		{Name:"Derek Perez", CriminalScore:24},
+		{Name:"Aan", CriminalScore:51},
+		{Name:"aAc", CriminalScore:51},
 		{Name:"Laura Hall", CriminalScore:42},
 		{Name:"Laura Matthews", CriminalScore:52},
 		{Name:"Debra Norris", CriminalScore:94},
@@ -31,35 +31,6 @@ func main() {
 }
 	vehicle, waiting := LastDayInJail(criminalss, "Ellen Gallegos")
 	fmt.Print(vehicle, waiting)
-	// Q := queue{}
-	// Q.enqueue(criminals[0])
-	// Q.enqueue(criminals[1])
-	// Q.enqueue(criminals[2])
-	// Q.enqueue(criminals[3])
-	// Q.enqueue(criminals[4])
-	// Q.enqueue(criminals[5])
-	// Q.enqueue(criminals[6])
-	// Q.enqueue(criminals[7])
-	// Q.enqueue(criminals[8])
-	// Q.enqueue(criminals[9])
-	// count := 0
-	// for Q.head != nil{
-	// 	fmt.Println(Q.dequeue())
-	// }
-	// fmt.Print(count)
-
-
-	// curr := Q.head.next.next
-	// fmt.Print(curr.val.Name)
-	// hasil := Q.dequeue()
-	// fmt.Print(hasil)
-	// Q.getPerson("Laura Hall")
-	// fmt.Print(Q.head.next)
-	// fmt.Print(Q.len)
-	// fmt.Print(Q.head.val.Name)
-	// fmt.Print(Q.head.next.val.Name)
-	// fmt.Print(Q.head.next.next.val.Name)
-
 
 	// Task 2.a
 	// result := RotateImage([][]int{

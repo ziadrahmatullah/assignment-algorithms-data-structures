@@ -1,5 +1,7 @@
 package main
 
+// import "strings"
+
 type Person struct {
 	Name          string
 	CriminalScore int
@@ -24,18 +26,18 @@ func (Q *queue) enqueue(input Person) {
 		curr := Q.head
 		var temp *nodeQ
 		for isPerson1Higher(curr.val, newNode.val) {
-			if curr.next == nil{
+			if curr.next == nil {
 				curr.next = newNode
 				curr = newNode
-			}else {
+			} else {
 				temp = curr
 				curr = curr.next
-			}		
+			}
 		}
-		if curr == Q.head{
+		if curr == Q.head {
 			newNode.next = Q.head
 			Q.head = newNode
-		}else if temp != nil && curr != newNode{
+		} else if temp != nil && curr != newNode {
 			newNode.next = curr
 			temp.next = newNode
 		}
@@ -43,13 +45,13 @@ func (Q *queue) enqueue(input Person) {
 	}
 }
 
-func (Q *queue) dequeue() (output Person){
-	if Q.len == 1{
+func (Q *queue) dequeue() (output Person) {
+	if Q.len == 1 {
 		output = Q.head.val
 		Q.head = nil
 		Q.len--
 		return
-	}else if Q.len > 1{
+	} else if Q.len > 1 {
 		curr := Q.head
 		Q.head = Q.head.next
 		curr.next = nil
@@ -60,25 +62,24 @@ func (Q *queue) dequeue() (output Person){
 	return
 }
 
-func (Q *queue) getPerson(input string) (output Person){
-	if Q.head == nil{
+func (Q *queue) getPerson(input string) (output Person) {
+	if Q.head == nil {
 		return
-	}else{
+	} else {
 		curr := Q.head
-		if curr.val.Name == input{
-			return Q.dequeue()	
-		}else{
-			for curr.next != nil{
-				if curr.val.Name == input{
+		if curr.val.Name == input {
+			return Q.dequeue()
+		} else {
+			for curr.next != nil {
+				if curr.val.Name == input {
 					return curr.val
 				}
 				curr = curr.next
 			}
 		}
 		return
-	}	
+	}
 }
-
 
 func min(x, y int) int {
 	if x < y {
@@ -99,9 +100,9 @@ func isName1Higher(name1, name2 string) bool {
 	if i == minLength {
 		if len(name1) > len(name2) {
 			return false
-		} else if len(name1) < len(name2){
+		} else if len(name1) < len(name2) {
 			return true
-		}else{
+		} else {
 			return false // Is equal
 		}
 	} else {
@@ -125,7 +126,6 @@ func isPerson1Higher(person1, person2 Person) bool {
 	} else {
 		return false
 	}
-
 }
 
 // Task 1.a
@@ -133,24 +133,23 @@ func LastDayInJail(criminals []Person, chosenPerson string) (onTransport []Perso
 	// Write your code here
 	// --------------------
 	Q := queue{}
-	released := queue{}
 	for _, person := range criminals {
 		Q.enqueue(person)
 	}
 	i := 5
-	for Q.head != nil && i != 0{
-		released.enqueue(Q.dequeue())
+	personPlus := Q.getPerson(chosenPerson)
+	for Q.head != nil && i != 0 {
+		if len(onTransport) < 3 {
+			onTransport = append(onTransport, Q.dequeue())
+		} else {
+			waiting = append(waiting, Q.dequeue())
+		}
 		i--
 	}
-	if person := Q.getPerson(chosenPerson); person.Name != ""{	
-		released.enqueue(person)
-	}
-	for released.head != nil{
-		if len(onTransport)< 3{
-			onTransport = append(onTransport,released.dequeue())
-		}else{
-			waiting = append(waiting, released.dequeue())
-		}
+	if len(onTransport) < 3 && personPlus.Name != ""{
+		onTransport = append(onTransport, personPlus)
+	} else if personPlus.Name != ""{
+		waiting = append(waiting, personPlus)
 	}
 	return
 	// --------------------
