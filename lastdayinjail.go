@@ -23,12 +23,20 @@ func (Q *queue) enqueue(input Person) {
 	} else {
 		curr := Q.head
 		var temp *nodeQ
-		for isPerson1Higher(Q.head.val, newNode.val) {
-			temp = curr
-			curr = curr.next
+		for isPerson1Higher(curr.val, newNode.val) {
+			if curr.next == nil{
+				curr.next = newNode
+				curr = newNode
+			}else {
+				temp = curr
+				curr = curr.next
+			}		
 		}
-		newNode.next = curr
-		if temp != nil {
+		if curr == Q.head{
+			newNode.next = Q.head
+			Q.head = newNode
+		}else if temp != nil && curr != newNode{
+			newNode.next = curr
 			temp.next = newNode
 		}
 		Q.len++
@@ -36,28 +44,39 @@ func (Q *queue) enqueue(input Person) {
 }
 
 func (Q *queue) dequeue() (output Person){
-	if Q.head != nil{
+	if Q.len == 1{
+		output = Q.head.val
+		Q.head = nil
+		Q.len--
+		return
+	}else if Q.len > 1{
 		curr := Q.head
-		curr.next = nil
 		Q.head = Q.head.next
+		curr.next = nil
 		output = curr.val
+		Q.len--
 		return
 	}
 	return
 }
 
 func (Q *queue) getPerson(input string) (output Person){
-	curr := Q.head
-	if curr.val.Name == input{
-		return Q.dequeue()	
-	}else{
-		for curr.next.val.Name != input{
-			curr = curr.next
-		}
-		output = curr.next.val
-		curr.next = curr.next.next
+	if Q.head == nil{
 		return
-	}
+	}else{
+		curr := Q.head
+		if curr.val.Name == input{
+			return Q.dequeue()	
+		}else{
+			for curr.next.val.Name != input && curr.next != nil{
+				curr = curr.next
+			}
+			output = curr.next.val
+			curr.next = curr.next.next
+			Q.len--
+			return
+		}
+	}	
 }
 
 
@@ -80,8 +99,10 @@ func isName1Higher(name1, name2 string) bool {
 	if i == minLength {
 		if len(name1) > len(name2) {
 			return false
-		} else {
+		} else if len(name1) < len(name2){
 			return true
+		}else{
+			return false // Is equal
 		}
 	} else {
 		if name1[i] > name2[i] {
@@ -113,19 +134,18 @@ func LastDayInJail(criminals []Person, chosenPerson string) (onTransport []Perso
 	// --------------------
 	Q := queue{}
 	released := queue{}
-	// var released []Person
 	for _, person := range criminals {
 		Q.enqueue(person)
 	}
 	i := 5
 	for Q.head != nil && i != 0{
 		released.enqueue(Q.dequeue())
-		i++
+		i--
 	}
 	if chosenPerson != ""{
 		released.enqueue(Q.getPerson(chosenPerson))
 	}
-	for released.head!= nil{
+	for released.head != nil{
 		if len(onTransport)< 3{
 			onTransport = append(onTransport,released.dequeue())
 		}else{
