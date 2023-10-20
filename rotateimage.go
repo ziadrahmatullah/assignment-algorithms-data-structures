@@ -15,8 +15,6 @@ type Pixel struct {
 
 // Task 2.a
 func RotateImage(pixels [][]int) [][]int {
-	// Write your code here
-	// --------------------
 	rows:= len(pixels)
 	cols := len(pixels[0])
 	if rows == 0{
@@ -34,14 +32,11 @@ func RotateImage(pixels [][]int) [][]int {
 		k--;
 	}
 	return result
-	// --------------------
 }
 
 // Task 2.b
 // To test this function ,you can execute the RunRotateActualImage() on main
 func RotateActualImage(pixels [][]Pixel) [][]Pixel {
-	// Write your code here
-	// --------------------
 	rows:= len(pixels)
 	cols := len(pixels[0])
 	if rows == 0{
@@ -59,7 +54,6 @@ func RotateActualImage(pixels [][]Pixel) [][]Pixel {
 		k--;
 	}
 	return result
-	// --------------------
 }
 
 // Please don't modify code below unless specified by your trainers

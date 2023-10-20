@@ -82,8 +82,6 @@ func reverseArray(arr []string) []string {
 
 // Task 3.a
 func RobotTranslatorV2(cmd string) string {
-	// Write your code here
-	// --------------------
 	S := stack{}
 	S.processingStringToStack(cmd)
 
@@ -98,5 +96,4 @@ func RobotTranslatorV2(cmd string) string {
 	reverseArray(arrMoves)
 
 	return strings.Join(arrMoves, "\n")
-	// --------------------
 }
