@@ -1,5 +1,5 @@
 package main
-
+// import "fmt"
 // If you want to test your code, you may test it here...
 func main() {
 	// Task 1.a
@@ -12,5 +12,6 @@ func main() {
 	// RunRotateActualImage()
 
 	// Task 3.a
-	// string := RobotTranslatorV2("LLRRX XX")
+	// move := RobotTranslatorV2("")
+	// fmt.Print(move)
 }

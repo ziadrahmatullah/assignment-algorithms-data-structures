@@ -86,12 +86,18 @@ func RobotTranslatorV2(cmd string) string {
 	S.processingStringToStack(cmd)
 
 	var arrMoves []string
+	var canceled bool
 	for S.top != nil {
 		move, count := S.pop()
-		if move != 'R' && move != 'L' && move != 'A' {
-			return "Invalid command"
+		if move == 'X' {
+			canceled = !canceled
+		} else if !canceled {
+			if move == 'R' || move == 'L' || move == 'A' {
+				arrMoves = append(arrMoves, instructions(count, move))
+			} else {
+				return "Invalid command"
+			}
 		}
-		arrMoves = append(arrMoves, instructions(count, move))
 	}
 	reverseArray(arrMoves)
 
